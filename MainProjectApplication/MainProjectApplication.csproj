@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-MainProjectApplication-6225fdf4-0228-44a6-9bed-fb88c0a93545</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="11.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient.Extensions.Azure" Version="1.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="11.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="11.0.0" />
+  </ItemGroup>
+
+</Project>
