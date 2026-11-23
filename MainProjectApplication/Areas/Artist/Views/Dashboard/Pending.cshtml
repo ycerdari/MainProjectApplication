@@ -1,0 +1,18 @@
+@model ArtistProfile
+@{
+    ViewData["Title"] = "Account status";
+}
+
+<div class="card card-body" style="max-width:640px">
+    @if (Model.Status == ArtistStatus.Rejected)
+    {
+        <h1 class="h4">Your artist account was not approved</h1>
+        <p>@(string.IsNullOrWhiteSpace(Model.ReviewNote) ? "An admin reviewed your request and could not approve it." : Model.ReviewNote)</p>
+    }
+    else
+    {
+        <h1 class="h4">Your artist account is pending review</h1>
+        <p>An admin will check <strong>@Model.StageName</strong> before you can publish tracks. This page updates once you are approved.</p>
+    }
+    <a class="btn btn-outline-secondary align-self-start" asp-area="" asp-controller="Tracks" asp-action="Index">Browse as a listener</a>
+</div>

@@ -1,0 +1,41 @@
+@model ArtistDashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="d-flex align-items-center mb-4">
+    <div class="flex-grow-1">
+        <h1 class="h3 mb-1">Welcome back, @Model.Artist.StageName</h1>
+        <div class="text-muted">Here is how your music is doing.</div>
+    </div>
+    <a class="btn btn-primary" asp-controller="Tracks" asp-action="Create">Upload a track</a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="card card-body"><div class="small text-muted">Tracks</div><div class="fs-3 fw-bold">@Model.TrackCount</div></div></div>
+    <div class="col-md-3"><div class="card card-body"><div class="small text-muted">Public</div><div class="fs-3 fw-bold">@Model.PublicCount</div></div></div>
+    <div class="col-md-3"><div class="card card-body"><div class="small text-muted">Total plays</div><div class="fs-3 fw-bold">@Model.TotalPlays.ToString("N0")</div></div></div>
+    <div class="col-md-3"><div class="card card-body"><div class="small text-muted">Favorites</div><div class="fs-3 fw-bold">@Model.FavoriteCount</div></div></div>
+</div>
+
+<h2 class="h5">Recent uploads</h2>
+@if (!Model.Recent.Any())
+{
+    <p class="text-muted">You haven't uploaded anything yet.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var t in Model.Recent)
+        {
+            <li class="list-group-item d-flex align-items-center gap-3">
+                <div class="flex-grow-1">
+                    <strong>@t.Title</strong>
+                    <div class="small text-muted">@t.ReleaseType.GetDisplayName() &middot; @string.Join(", ", t.Genres.Select(g => g.Name))</div>
+                </div>
+                <span class="badge text-bg-secondary">@t.Visibility</span>
+                <span class="small text-muted">@t.PlayCount plays</span>
+            </li>
+        }
+    </ul>
+}

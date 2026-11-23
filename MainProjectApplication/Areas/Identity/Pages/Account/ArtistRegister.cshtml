@@ -1,0 +1,58 @@
+@page
+@model ArtistRegisterModel
+@{
+    ViewData["Title"] = "Artist sign up";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <h1 class="h3 text-center mb-1">PUPlay Studio</h1>
+        <p class="text-center text-muted mb-4">Create your artist account</p>
+
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.StageName" class="form-control" placeholder="Stage name" />
+                <label asp-for="Input.StageName"></label>
+                <span asp-validation-for="Input.StageName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" placeholder="Password" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder="Confirm password" />
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.College" class="form-label"></label>
+                <select asp-for="Input.College" class="form-select">
+                    <option value="">Select your college (optional)</option>
+                    <option>CCIS</option><option>CAL</option><option>CE</option><option>COC</option><option>Other</option>
+                </select>
+            </div>
+            <div class="form-check mb-2">
+                <input asp-for="Input.ConfirmOriginal" class="form-check-input" />
+                <label asp-for="Input.ConfirmOriginal" class="form-check-label"></label>
+                <span asp-validation-for="Input.ConfirmOriginal" class="text-danger d-block"></span>
+            </div>
+            <p class="small text-muted">New artist accounts are reviewed by an admin before you can publish.</p>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Create artist account</button>
+        </form>
+
+        <p class="text-center mt-3">Already an artist? <a asp-page="./ArtistLogin">Log in here</a></p>
+        <p class="text-center small">Just listening? <a asp-page="./Register">Create a listener account</a></p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,53 @@
+@model IEnumerable<ArtistProfile>
+@{
+    ViewData["Title"] = "Artist approvals";
+    var current = (ArtistStatus)ViewBag.Status;
+}
+
+<h1 class="h3">Artist approvals</h1>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success" role="status">@TempData["Success"]</div>
+}
+
+<ul class="nav nav-pills mb-3">
+    @foreach (var s in Enum.GetValues<ArtistStatus>())
+    {
+        <li class="nav-item"><a class="nav-link @(s == current ? "active" : "")" asp-action="Index" asp-route-status="@s">@s</a></li>
+    }
+</ul>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No @current.ToString().ToLower() artists.</p>
+}
+else
+{
+    <table class="table align-middle">
+        <thead><tr><th>Stage name</th><th>Email</th><th>College</th><th>Requested</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.StageName</td>
+                <td>@a.User?.Email</td>
+                <td>@a.College</td>
+                <td>@a.CreatedAt.ToLocalTime().ToString("MMM d, yyyy")</td>
+                <td class="text-end">
+                    @if (a.Status != ArtistStatus.Approved)
+                    {
+                        <form asp-action="Approve" asp-route-id="@a.Id" method="post" class="d-inline"><button class="btn btn-sm btn-success">Approve</button></form>
+                    }
+                    @if (a.Status != ArtistStatus.Rejected)
+                    {
+                        <form asp-action="Reject" asp-route-id="@a.Id" method="post" class="d-inline-flex gap-1">
+                            <input name="note" class="form-control form-control-sm" placeholder="Reason (optional)" aria-label="Reason" />
+                            <button class="btn btn-sm btn-outline-danger">@(a.Status == ArtistStatus.Approved ? "Revoke" : "Reject")</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,46 @@
+@model IEnumerable<PUPApp.Models.Track>
+@using PUPApp.Models
+@{
+    ViewData["Title"] = "Browse tracks";
+}
+
+<h1>Browse tracks</h1>
+
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-4"><input name="search" value="@ViewBag.Search" class="form-control" placeholder="Search title, artist, or genre" aria-label="Search" /></div>
+    <div class="col-md-2"><select name="genreId" class="form-select" asp-items="@(ViewBag.Genres as SelectList)" aria-label="Genre"><option value="">All genres</option></select></div>
+    <div class="col-md-2"><select name="college" class="form-select" asp-items="@(ViewBag.Colleges as SelectList)" aria-label="College"><option value="">All colleges</option></select></div>
+    <div class="col-md-2"><select name="type" class="form-select" asp-items="@(ViewBag.Types as SelectList)" aria-label="Release type"><option value="">All releases</option></select></div>
+    <div class="col-md-2"><button class="btn btn-primary">Search</button> <a asp-action="Index" class="btn btn-outline-secondary">Reset</a></div>
+</form>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No tracks found.</p>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var item in Model)
+        {
+            var releaseLabel = item.ReleaseType == ReleaseType.Other && !string.IsNullOrWhiteSpace(item.ReleaseTypeOther)
+                ? item.ReleaseTypeOther : item.ReleaseType.GetDisplayName();
+            var genreText = string.Join(", ", item.Genres.Select(g => g.Name))
+                + (string.IsNullOrWhiteSpace(item.OtherGenre) ? "" : " (" + item.OtherGenre + ")");
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div>
+                        <strong>@item.Title</strong>@if (item.IsExplicit) { <span class="badge text-bg-secondary ms-2">E</span> }<br />
+                        <small class="text-muted">
+                            @item.ArtistProfile?.StageName
+                            @if (!string.IsNullOrWhiteSpace(item.FeaturedArtists)) { <text>feat. @item.FeaturedArtists</text> }
+                            &middot; @releaseLabel &middot; @genreText
+                            &middot; @TimeSpan.FromSeconds(item.DurationSeconds).ToString(@"m\:ss")
+                        </small>
+                    </div>
+                    <audio controls preload="none" src="@item.AudioPath" class="mt-2"></audio>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,39 @@
+@page
+@model ArtistLoginModel
+@{
+    ViewData["Title"] = "Artist sign in";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <h1 class="h3 text-center mb-1">PUPlay Studio</h1>
+        <p class="text-center text-muted mb-4">Artist sign in</p>
+
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="Password" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-check mb-3">
+                <input asp-for="Input.RememberMe" class="form-check-input" />
+                <label asp-for="Input.RememberMe" class="form-check-label"></label>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Sign in</button>
+            <p class="text-center mt-3 mb-1"><a asp-page="./ForgotPassword">Forgot your password?</a></p>
+        </form>
+
+        <p class="text-center">New artist? <a asp-page="./ArtistRegister">Create an account here</a></p>
+        <p class="text-center small">Not an artist? <a asp-page="./Login">Listener log-in</a></p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

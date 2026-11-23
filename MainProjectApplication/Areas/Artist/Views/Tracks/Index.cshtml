@@ -1,0 +1,41 @@
+@model IEnumerable<Track>
+@{
+    ViewData["Title"] = "My tracks";
+}
+
+<div class="d-flex align-items-center mb-3">
+    <h1 class="h3 flex-grow-1 mb-0">My tracks</h1>
+    <a class="btn btn-primary" asp-action="Create">Upload a track</a>
+</div>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">You haven't uploaded anything yet.</p>
+}
+else
+{
+    <table class="table align-middle">
+        <thead><tr><th>Title</th><th>Release</th><th>Genres</th><th>Status</th><th>Plays</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.Title<div class="small text-muted">@t.AudioFormat.ToUpper() &middot; @t.DurationSeconds s</div></td>
+                <td>@(t.ReleaseType == ReleaseType.Other && !string.IsNullOrWhiteSpace(t.ReleaseTypeOther) ? t.ReleaseTypeOther : t.ReleaseType.GetDisplayName())</td>
+                <td>@string.Join(", ", t.Genres.Select(g => g.Name))@(string.IsNullOrWhiteSpace(t.OtherGenre) ? "" : " (" + t.OtherGenre + ")")</td>
+                <td><span class="badge text-bg-secondary">@t.Visibility</span></td>
+                <td>@t.PlayCount</td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@t.Id">Edit</a>
+                    <form asp-action="ToggleVisibility" asp-route-id="@t.Id" method="post" class="d-inline">
+                        <button class="btn btn-sm btn-outline-secondary">@(t.Visibility == TrackVisibility.Public ? "Hide" : "Publish")</button>
+                    </form>
+                    <form asp-action="Delete" asp-route-id="@t.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this track?');">
+                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

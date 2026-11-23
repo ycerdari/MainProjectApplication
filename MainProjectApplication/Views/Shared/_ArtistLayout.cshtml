@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PUPlay Studio</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="d-flex" style="min-height:100vh">
+        <nav class="border-end p-3 d-flex flex-column gap-1" style="width:250px" aria-label="Studio">
+            <div class="mb-3">
+                <div class="fs-5 fw-bold">PUPlay Studio</div>
+                <div class="small text-uppercase fw-semibold" style="letter-spacing:.14em">For artists</div>
+            </div>
+            <a class="btn btn-sm text-start" asp-area="Artist" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+            <a class="btn btn-sm text-start" asp-area="Artist" asp-controller="Tracks" asp-action="Create">Upload</a>
+            <a class="btn btn-sm text-start" asp-area="Artist" asp-controller="Tracks" asp-action="Index">My tracks</a>
+            <a class="btn btn-sm text-start" asp-area="" asp-controller="Tracks" asp-action="Index">Listener view</a>
+            <div class="mt-auto"><partial name="_LoginPartial" /></div>
+        </nav>
+        <main class="flex-grow-1 p-4" role="main">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success" role="status">@TempData["Success"]</div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
